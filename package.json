@@ -13,6 +13,19 @@
         "axios": "^0.21",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
-        "postcss": "^8.1.14"
+        "postcss": "^8.1.14",
+        "resolve-url-loader": "^4.0.0",
+        "sass": "^1.41.1",
+        "sass-loader": "^12.1.0",
+        "vue-axios": "^3.3.7",
+        "vue-loader": "^15.9.8",
+        "vue-router": "^3.5.2",
+        "vue-template-compiler": "^2.6.14"
+    },
+    "dependencies": {
+        "bootstrap": "^4.6.0",
+        "bootstrap-vue": "^2.21.2",
+        "vue": "^2.6.14",
+        "vue-i18n": "^8.25.1"
     }
 }
