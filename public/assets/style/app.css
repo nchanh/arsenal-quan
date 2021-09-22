@@ -1,0 +1,15 @@
+:root {
+  --blue-color: #2554ff;
+  --darkred-color: #a40005;
+  --red-color: #f00000;
+  --dark-color: #7a7a7a;
+}
+
+@font-face {
+  font-family: Kanit;
+  src: url(/assets/fonts/Kanit-Regular.ttf);
+}
+
+*{
+  font-family: Kanit;
+}

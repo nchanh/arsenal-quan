@@ -1,0 +1,148 @@
+<template>
+  <layout-public>
+    <div class="vue-tempalte">
+      <form @submit.prevent="submit">
+        <div class="d-flex justify-content-center">
+          <img src="/assets/images/Logo-AQ-red.png" alt="arsernal-quan"/>
+        </div>
+        <h4>Sign in to Arsenal Quán</h4>
+
+        <b-form-group
+          id="input-username"
+          label="Username or email address"
+          label-for="input-username"
+        >
+          <b-form-input
+            type="text"
+            id="input-username"
+            name="input-username"
+            v-model="user.username"
+            v-validate="'required|min:6|max:25'"
+            :state="validateState('input-username')"
+            aria-describedby="input-username-feedback"
+            data-vv-as="username"
+            class="form-control form-control-lg"
+          ></b-form-input>
+          <b-form-invalid-feedback id="input-username-feedback">{{
+            veeErrors.first("input-username")
+          }}</b-form-invalid-feedback>
+        </b-form-group>
+
+        <b-form-group
+          id="input-password"
+          label="Password"
+          label-for="input-password"
+        >
+          <b-form-input
+            type="password"
+            id="input-password"
+            name="input-password"
+            v-model="user.password"
+            v-validate="'required|min:6|max:50'"
+            :state="validateState('input-password')"
+            aria-describedby="input-password-feedback"
+            data-vv-as="password"
+            class="form-control form-control-lg"
+          ></b-form-input>
+          <b-form-invalid-feedback id="input-password-feedback">{{
+            veeErrors.first("input-password")
+          }}</b-form-invalid-feedback>
+        </b-form-group>
+
+        <button type="submit" class="btn btn-lg btn-block btn-submit">
+          Sign In
+        </button>
+      </form>
+    </div>
+  </layout-public>
+</template>
+
+<script>
+import { mapActions } from "vuex";
+import LayoutPublic from "../layouts/LayoutPublic.vue";
+
+export default {
+  components: { LayoutPublic },
+  data() {
+    return {
+      user: {
+        username: "",
+        password: "",
+      }
+    };
+  },
+  methods: {
+    ...mapActions('auth', ["LogIn"]),
+    async submit() {
+      const User = new FormData();
+      User.append("username", this.user.username);
+      User.append("password", this.user.password);
+
+      try {
+          await this.LogIn(User);
+          this.$toast.success("Successful account registration.");
+          this.$router.push({ name: "home" });
+      } catch (error) {
+        this.$toast.error('Account or password is incorrect.');
+      }
+    },
+    validateState(ref) {
+      if (
+        this.veeFields[ref] &&
+        (this.veeFields[ref].dirty || this.veeFields[ref].validated)
+      ) {
+        return !this.veeErrors.has(ref);
+      }
+      return null;
+    },
+  },
+};
+</script>
+
+<style scoped>
+h4 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+.vue-tempalte {
+  height: 100%;
+  width: 450px;
+  margin: auto;
+  background: #ffffff;
+  box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
+  padding: 40px 55px 45px 55px;
+  border-radius: 15px;
+  transition: all 0.3s;
+  margin-top: 35px;
+  margin-bottom: 65px;
+}
+.vue-tempalte img {
+  width: 40%;
+  margin-bottom: 10px;
+}
+.forgot-password {
+  font-size: 13px;
+  color: var(--dark-color);
+  margin: 0;
+}
+.forgot-password a {
+  color: var(--blue-color);
+}
+.forgot-password a:hover {
+  color: var(--dark-color);
+  text-decoration: none;
+}
+.btn-submit {
+  background-color: var(--red-color);
+  color: #fff;
+  margin-bottom: 10px;
+}
+.btn-submit:hover {
+  background-color: var(--darkred-color);
+}
+@media only screen and (max-width: 576px) {
+  .vue-tempalte {
+    width: 100%;
+  }
+}
+</style>

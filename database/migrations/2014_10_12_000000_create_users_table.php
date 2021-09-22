@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('fullname');
             $table->text('image')->nullable();
             $table->tinyInteger('status')->default(1);
-            $table->foreignId('role_id');
+            $table->foreignId('role_id')->default(4);
             $table->rememberToken();
             $table->timestamp('email_verified_at')->nullable();
             $table->softDeletes();
