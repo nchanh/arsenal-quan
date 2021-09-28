@@ -2,11 +2,11 @@
   <layout-public>
     <div class="vue-tempalte">
       <form @submit.prevent="submit">
-        <h4>Sign up to Arsenal Quán</h4>
+        <h4>Đăng ký tài khoản Arsenal Quán</h4>
 
         <b-form-group
           id="input-fullname"
-          label="Fullname"
+          label="Họ và tên"
           label-for="input-fullname"
         >
           <b-form-input
@@ -19,7 +19,7 @@
             aria-describedby="input-fullname-feedback"
             data-vv-as="Fullname"
             class="form-control form-control-md"
-            placeholder="Fullname"
+            placeholder="Họ và tên"
           ></b-form-input>
           <b-form-invalid-feedback id="input-fullname-feedback">{{
             veeErrors.first("input-fullname")
@@ -27,30 +27,8 @@
         </b-form-group>
 
         <b-form-group
-          id="input-username"
-          label="Username"
-          label-for="input-username"
-        >
-          <b-form-input
-            type="text"
-            id="input-username"
-            name="input-username"
-            v-model="user.username"
-            v-validate="'required|min:6|max:25'"
-            :state="validateState('input-username')"
-            aria-describedby="input-username-feedback"
-            data-vv-as="username"
-            class="form-control form-control-md"
-            placeholder="Username"
-          ></b-form-input>
-          <b-form-invalid-feedback id="input-username-feedback">{{
-            veeErrors.first("input-username")
-          }}</b-form-invalid-feedback>
-        </b-form-group>
-
-        <b-form-group
           id="input-email"
-          label="Email address"
+          label="Địa chỉ email"
           label-for="input-email"
         >
           <b-form-input
@@ -63,7 +41,7 @@
             aria-describedby="input-email-feedback"
             data-vv-as="email"
             class="form-control form-control-md"
-            placeholder="Email address"
+            placeholder="Địa chỉ email"
           ></b-form-input>
           <b-form-invalid-feedback id="input-email-feedback">{{
             veeErrors.first("input-email")
@@ -72,7 +50,7 @@
 
         <b-form-group
           id="input-password"
-          label="Password"
+          label="Mật khẩu"
           label-for="input-password"
         >
           <b-form-input
@@ -85,7 +63,7 @@
             aria-describedby="input-password-feedback"
             data-vv-as="password"
             class="form-control form-control-md"
-            placeholder="Password"
+            placeholder="Mật khẩu"
             ref="user.password"
           ></b-form-input>
           <b-form-invalid-feedback id="input-password-feedback">{{
@@ -95,7 +73,7 @@
 
         <b-form-group
           id="input-password_confirmation"
-          label="Confirm Password"
+          label="Nhập lại mật khẩu"
           label-for="input-password_confirmation"
         >
           <b-form-input
@@ -108,7 +86,7 @@
             aria-describedby="input-password_confirmation-feedback"
             data-vv-as="confirm password"
             class="form-control form-control-md"
-            placeholder="Confirm Password"
+            placeholder="Nhập lại mật khẩu"
           ></b-form-input>
           <b-form-invalid-feedback id="input-password_confirmation-feedback">{{
             veeErrors.first("input-password_confirmation")
@@ -116,7 +94,7 @@
         </b-form-group>
 
         <button type="submit" class="btn btn-lg btn-block btn-submit">
-          Sign Up
+          <span>Đăng ký</span>
         </button>
       </form>
     </div>
@@ -137,22 +115,27 @@ export default {
         password: "",
         password_confirmation: "",
       },
+      error: true,
     };
   },
   methods: {
-    ...mapActions('auth', ['Register']),
+    ...mapActions("auth", ["Register"]),
     async submit() {
-      this.$validator.validateAll().then((result) => {
-        if (!result) return;
+      console.log(this.getUsername(this.user.email));
+
+      await this.$validator.validateAll().then((result) => {
+        if (!result) this.error = false;
+        else this.error = true;
       });
 
-      try {
-        await this.Register(this.user);
-        this.$toast.success("Successful account registration.");
-        this.$router.push({ name: "home" });
-      } catch (error) {
-        var error = this.getErrorRequest(error.response.data.errors);
-        this.$toast.error(error);
+      if (this.error) {
+        try {
+          await this.Register(this.user);
+          this.$toast.success("Bạn đã đăng ký tài khoản thành công.");
+          this.$router.push({ name: "home" });
+        } catch (error) {
+          this.$toast.error("Địa chỉ email đã tồn tại.");
+        }
       }
     },
     validateState(ref) {
@@ -164,10 +147,10 @@ export default {
       }
       return null;
     },
-    getErrorRequest(error) {
-      if (error["username"]) return error["username"][0];
-      else return error["email"][0];
-    },
+    getUsername(email) {
+      const myArr = email.split("@");
+      return myArr[0];
+    }
   },
 };
 </script>

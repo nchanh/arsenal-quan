@@ -8,15 +8,26 @@
 
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
-            <b-nav-item href="#">Link</b-nav-item>
-            <b-nav-item href="#">Link</b-nav-item>
-            <b-nav-item href="#">Link</b-nav-item>
-            <b-nav-item-dropdown text="Lang" right>
-              <b-dropdown-item href="#">EN</b-dropdown-item>
-              <b-dropdown-item href="#">ES</b-dropdown-item>
-              <b-dropdown-item href="#">RU</b-dropdown-item>
-              <b-dropdown-item href="#">FA</b-dropdown-item>
-            </b-nav-item-dropdown>
+            <b-nav-item
+              href="#"
+              v-for="(item, index) in getMinCategories"
+              :key="index"
+              class="nav-cateogry"
+              >{{ item["name_vi"] }}</b-nav-item
+            >
+            <div @mouseover="onOver" @mouseleave="onLeave">
+              <b-nav-item-dropdown ref="dropdownCategories" no-caret left>
+                <template #button-content>
+                  Tất cả <b-icon icon="list"></b-icon>
+                </template>
+                <b-dropdown-item
+                  href="#"
+                  v-for="(item, index) in categories"
+                  :key="index"
+                  >{{ item["name_vi"] }}</b-dropdown-item
+                >
+              </b-nav-item-dropdown>
+            </div>
           </b-navbar-nav>
 
           <b-navbar-nav class="ml-auto">
@@ -35,16 +46,18 @@
                       src="/assets/images/Logo-AQ-red.png"
                       alt="Logo-AQ-red.png"
                     ></b-img>
-                    <span v-text="getFullname" class="text-profile"></span>
+                    <span class="text-profile">
+                      {{ getFullname }} <b-icon-chevron-down></b-icon-chevron-down>
+                      </span>
                   </template>
-                  <b-dropdown-item href="#">Action</b-dropdown-item>
-                  <b-dropdown-item href="#">Another action</b-dropdown-item>
+                  <b-dropdown-item href="#">Hồ sơ cá nhân</b-dropdown-item>
+                  <b-dropdown-item :to="{ name: 'postManager' }">Quản lý bài viết</b-dropdown-item>
                   <b-dropdown-divider></b-dropdown-divider>
                   <b-dropdown-item
                     href="javascript:void(0);"
                     @click="layoutLogout"
                   >
-                    Logout
+                    Đăng xuất
                   </b-dropdown-item>
                 </b-dropdown>
               </div>
@@ -52,12 +65,12 @@
                 <b-button
                   :to="{ name: 'login' }"
                   class="btn btn-outline-light navbar-nav-btn"
-                  >Sign in</b-button
+                  >Đăng nhập</b-button
                 >
                 <b-button
                   :to="{ name: 'register' }"
                   class="btn btn-outline-light navbar-nav-btn"
-                  >Sign up</b-button
+                  >Đăng ký</b-button
                 >
               </div>
             </b-nav-item>
@@ -72,25 +85,44 @@
 import { mapGetters, mapActions } from "vuex";
 
 export default {
+  data() {
+    return {
+      min_categories: {},
+    };
+  },
+  created: function () {
+    this.getCategories();
+  },
   computed: {
     ...mapGetters({
       isAuthenticated: "auth/isAuthenticated",
       getFullname: "auth/getFullname",
+      categories: "category/getCategories",
     }),
     isLoggedIn: function () {
       return this.isAuthenticated;
     },
+    getMinCategories() {
+      return this.categories.slice(0, 5);
+    },
   },
   methods: {
     ...mapActions("auth", ["LogOut"]),
+    ...mapActions("category", ["getCategories"]),
     async layoutLogout() {
       try {
         await this.LogOut();
-        this.$toast.info("You have logged out of the system.");
+        this.$toast.info("Bạn đã đăng xuất khỏi hệ thống.");
         this.$router.push({ name: "login" });
       } catch (error) {
-        this.$toast.error("An error occurred, please try again.");
+        this.$toast.error("Đã xảy ra lỗi. Vui lòng thử lại sau.");
       }
+    },
+    onOver() {
+      this.$refs.dropdownCategories.visible = true;
+    },
+    onLeave() {
+      this.$refs.dropdownCategories.visible = false;
     },
   },
 };

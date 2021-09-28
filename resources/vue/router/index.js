@@ -2,17 +2,24 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import { store } from "../store";
 
-import WelcomeComponent from "../components/public/WelcomeComponent";
+import PageNotFound from "../components/errors/PageNotFound.vue";
+import HomeComponent from "../components/public/HomeComponent";
 import LoginComponent from "../components/public/Login";
 import RegisterComponent from "../components/public/Register";
+import PostDetailComponent from "../components/public/PostDetailComponent.vue";
+import PostManagerComponent from "../components/public/PostManagerComponent.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
+    path: "*",
+    name: "urlNotFound",
+    component: PageNotFound },
+  {
     path: "/",
     name: "home",
-    component: WelcomeComponent
+    component: HomeComponent
   },
   {
     path: "/login",
@@ -25,22 +32,43 @@ const routes = [
     name: "register",
     component: RegisterComponent,
     meta: { guest: true }
+  },
+  {
+    path: "/post/:Pslug",
+    name: "postDetail",
+    component: PostDetailComponent
+  },
+  {
+    path: "/posts/manager",
+    name: "postManager",
+    component: PostManagerComponent,
+    meta: { requiresAuth: true }
   }
 ];
 
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
-  routes
+  routes,
+  scrollBehavior(to, from, savedPosition) {
+    if (to.hash) {
+      return window.scrollTo({
+        top: document.querySelector(to.hash).offsetTop,
+        behavior: "smooth"
+      });
+    } else {
+      return { x: 0, y: 0 };
+    }
+  }
 });
 
 router.beforeEach((to, from, next) => {
-  console.log();
-  if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (store.getters['auth/isAuthenticated']) {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (store.getters["auth/isAuthenticated"]) {
       next();
       return;
     }
+    Vue.prototype.$toast.error("Vui lòng đăng nhập để sử dụng chức năng.");
     next("/login");
   } else {
     next();
@@ -48,10 +76,10 @@ router.beforeEach((to, from, next) => {
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some((record) => record.meta.guest)) {
-    if (store.getters['auth/isAuthenticated']) {
-      Vue.prototype.$toast.error('Please log out to use the function.');
-      next(from['path']);
+  if (to.matched.some(record => record.meta.guest)) {
+    if (store.getters["auth/isAuthenticated"]) {
+      Vue.prototype.$toast.error("Vui lòng đăng xuất để sử dụng chức năng.");
+      next("/");
       return;
     }
     next();

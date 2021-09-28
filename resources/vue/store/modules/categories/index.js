@@ -3,12 +3,12 @@ import { actions } from './actions'
 import { mutations } from './mutations'
 
 const state = {
-  categories = {}
+  categories: {},
 };
 
 const namespaced = true;
 
-export const auth = {
+export const moduleCategory = {
     namespaced,
     state,
     getters,

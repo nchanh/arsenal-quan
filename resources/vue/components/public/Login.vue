@@ -3,13 +3,13 @@
     <div class="vue-tempalte">
       <form @submit.prevent="submit">
         <div class="d-flex justify-content-center">
-          <img src="/assets/images/Logo-AQ-red.png" alt="arsernal-quan"/>
+          <img src="/assets/images/Logo-AQ-red.png" alt="arsernal-quan" />
         </div>
-        <h4>Sign in to Arsenal Quán</h4>
+        <h4>Đăng nhập vào Arsenal Quán</h4>
 
         <b-form-group
           id="input-username"
-          label="Username or email address"
+          label="Tài khoản hoặc địa chi email"
           label-for="input-username"
         >
           <b-form-input
@@ -30,7 +30,7 @@
 
         <b-form-group
           id="input-password"
-          label="Password"
+          label="Mật khẩu"
           label-for="input-password"
         >
           <b-form-input
@@ -50,7 +50,7 @@
         </b-form-group>
 
         <button type="submit" class="btn btn-lg btn-block btn-submit">
-          Sign In
+          Đăng nhập
         </button>
       </form>
     </div>
@@ -68,22 +68,30 @@ export default {
       user: {
         username: "",
         password: "",
-      }
+      },
+      error: true,
     };
   },
   methods: {
-    ...mapActions('auth', ["LogIn"]),
+    ...mapActions("auth", ["LogIn"]),
     async submit() {
-      const User = new FormData();
-      User.append("username", this.user.username);
-      User.append("password", this.user.password);
+      await this.$validator.validateAll().then((result) => {
+        if (!result) this.error = false;
+        else this.error = true;
+      });
 
-      try {
+      if (this.error) {
+        const User = new FormData();
+        User.append("username", this.user.username);
+        User.append("password", this.user.password);
+
+        try {
           await this.LogIn(User);
-          this.$toast.success("Successful account registration.");
+          this.$toast.success("Bạn đã đăng nhập thành công.");
           this.$router.push({ name: "home" });
-      } catch (error) {
-        this.$toast.error('Account or password is incorrect.');
+        } catch (error) {
+          this.$toast.error("Tài khoản hoặc mật khẩu không đúng.");
+        }
       }
     },
     validateState(ref) {

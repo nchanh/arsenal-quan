@@ -18,6 +18,7 @@ class CreatePostsTable extends Migration
             $table->string('title')->unique();
             $table->string('short_description')->nullable();
             $table->text('content');
+            $table->text('slug');
             $table->text('thumbnail')->nullable();
             $table->integer('views')->default(0);
             $table->tinyInteger('status')->default(1);

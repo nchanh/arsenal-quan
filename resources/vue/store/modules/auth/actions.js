@@ -1,6 +1,8 @@
 export const actions = {
   async Register({ dispatch }, form) {
-    await axios.post("register", form);
+    await axios.post("register", form).then((result) => {
+      let data = result.data;
+    });
     let UserForm = new FormData();
     UserForm.append("username", form.username);
     UserForm.append("password", form.password);
@@ -11,7 +13,6 @@ export const actions = {
       commit("setToken", response.data.data.token);
       commit("setFullname", response.data.data.fullname);
     });
-
   },
   async LogOut({ commit, state }) {
     let headers = { headers: { Authorization: `Bearer ${state.token}` } };
