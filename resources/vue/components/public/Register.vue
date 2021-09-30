@@ -120,9 +120,8 @@ export default {
   },
   methods: {
     ...mapActions("auth", ["Register"]),
+    ...mapActions("user", ["getUserLogged"]),
     async submit() {
-      console.log(this.getUsername(this.user.email));
-
       await this.$validator.validateAll().then((result) => {
         if (!result) this.error = false;
         else this.error = true;
@@ -131,6 +130,7 @@ export default {
       if (this.error) {
         try {
           await this.Register(this.user);
+          await this.getUserLogged();
           this.$toast.success("Bạn đã đăng ký tài khoản thành công.");
           this.$router.push({ name: "home" });
         } catch (error) {
@@ -150,7 +150,7 @@ export default {
     getUsername(email) {
       const myArr = email.split("@");
       return myArr[0];
-    }
+    },
   },
 };
 </script>

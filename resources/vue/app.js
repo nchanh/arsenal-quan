@@ -50,6 +50,12 @@ Vue.filter("formatDate", function(value) {
     return moment(String(value)).format("hh:mm DD/MM/YYYY");
   }
 });
+Vue.filter('formatOnlyDate', function(value) {
+  if (value) {
+    return moment(String(value)).format('DD/MM/YYYY');
+  }
+});
+
 Vue.component("tinymce", tinymce);
 
 axios.defaults.withCredentials = true;

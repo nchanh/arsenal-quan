@@ -47,11 +47,16 @@
                       alt="Logo-AQ-red.png"
                     ></b-img>
                     <span class="text-profile">
-                      {{ getFullname }} <b-icon-chevron-down></b-icon-chevron-down>
-                      </span>
+                      {{ getFullname }}
+                      <b-icon-chevron-down></b-icon-chevron-down>
+                    </span>
                   </template>
-                  <b-dropdown-item href="#">Hồ sơ cá nhân</b-dropdown-item>
-                  <b-dropdown-item :to="{ name: 'postManager' }">Quản lý bài viết</b-dropdown-item>
+                  <b-dropdown-item :to="{ name: 'profileUser' }">
+                    Hồ sơ cá nhân
+                  </b-dropdown-item>
+                  <b-dropdown-item :to="{ name: 'postManager' }">
+                    Quản lý bài viết
+                  </b-dropdown-item>
                   <b-dropdown-divider></b-dropdown-divider>
                   <b-dropdown-item
                     href="javascript:void(0);"
@@ -109,9 +114,11 @@ export default {
   methods: {
     ...mapActions("auth", ["LogOut"]),
     ...mapActions("category", ["getCategories"]),
+    ...mapActions("user", ["setUserLoggedEmpty"]),
     async layoutLogout() {
       try {
         await this.LogOut();
+        await this.setUserLoggedEmpty();
         this.$toast.info("Bạn đã đăng xuất khỏi hệ thống.");
         this.$router.push({ name: "login" });
       } catch (error) {

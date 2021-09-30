@@ -8,6 +8,7 @@ import LoginComponent from "../components/public/Login";
 import RegisterComponent from "../components/public/Register";
 import PostDetailComponent from "../components/public/PostDetailComponent.vue";
 import PostManagerComponent from "../components/public/PostManagerComponent.vue";
+import ProfileComponent from '../components/public/ProfileComponent.vue'
 
 Vue.use(VueRouter);
 
@@ -43,7 +44,13 @@ const routes = [
     name: "postManager",
     component: PostManagerComponent,
     meta: { requiresAuth: true }
-  }
+  },
+  {
+    path: "/profile",
+    name: "profileUser",
+    component: ProfileComponent,
+    meta: { requiresAuth: true }
+  },
 ];
 
 const router = new VueRouter({

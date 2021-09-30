@@ -19,7 +19,7 @@
         <b-card-text>
           <list-component
             :posts="posts"
-            :totalRows="totalRows"
+            :rows="totalRows"
             @onRemovePost="onRemovePost"
             @requestUpdatePost="requestUpdatePost"
           ></list-component>

@@ -28,6 +28,11 @@
             </b-col>
             <b-col md="6" id="new-post-text">
               <b-card-body>
+                <span
+                  class="np-title-cateogry"
+                  v-if="item.category"
+                  v-text="item.category.name_vi"
+                ></span>
                 <b-card-title class="new-post-title">
                   {{ item.title }}
                 </b-card-title>
@@ -92,7 +97,7 @@ export default {
     postDetail(slug) {
       this.$router.push({ name: "postDetail", params: { Pslug: slug } });
     },
-  }
+  },
 };
 </script>
 
@@ -108,6 +113,8 @@ export default {
 }
 .new-post-cart:hover {
   cursor: pointer;
+  color: red;
+  background-color: rgb(255, 0, 0, 0.045);
   box-shadow: rgba(191, 136, 136, 0.48) 6px 2px 16px 0px,
     rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
 }
@@ -123,12 +130,17 @@ export default {
 }
 .new-post-short-description {
   display: -webkit-box;
-  -webkit-line-clamp: 6;
+  -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .new-post-img {
   height: 100%;
+}
+.np-title-cateogry {
+  color: rgb(95, 95, 95);
+  font-size: 13px;
+  text-transform: uppercase;
 }
 </style>

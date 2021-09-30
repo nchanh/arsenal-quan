@@ -1,7 +1,7 @@
 <template>
   <div>
     <main>
-      <router-view @toTop="toTop"></router-view>
+      <router-view></router-view>
     </main>
     <div
       id="pagetop"

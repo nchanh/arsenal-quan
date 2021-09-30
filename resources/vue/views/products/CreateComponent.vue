@@ -8,7 +8,7 @@
           v-validate="'required|max:190'"
           :state="validateState('title')"
           aria-describedby="title-feedback"
-          data-vv-as="title"
+          data-vv-as="tiêu đề"
           v-model="post.title"
           type="text"
           placeholder="Tiêu đề"
@@ -26,7 +26,7 @@
           v-validate="'required|max:190'"
           :state="validateState('short_description')"
           aria-describedby="short_description-feedback"
-          data-vv-as="short description"
+          data-vv-as="mô tả ngắn"
           v-model="post.short_description"
           type="text"
           placeholder="Mô tả ngắn"
@@ -65,6 +65,7 @@
             <b-form-file
               id="file-image"
               accept="image/*"
+              placeholder="Vui lòng chọn hình ảnh tại đây..."
               size="sm"
               @change="previewImage"
             ></b-form-file>
@@ -118,7 +119,7 @@
           <b-icon-arrow-counterclockwise></b-icon-arrow-counterclockwise>
           Đặt lại
         </b-button>
-        <b-button type="submit" variant="primary" title="Xác nhận">
+        <b-button type="submit" variant="danger" title="Xác nhận">
           <b-icon-check-circle></b-icon-check-circle>
           <span v-if="post.isEdit">Cập nhật</span>
           <span v-else>Thêm</span>

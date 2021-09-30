@@ -48,11 +48,15 @@ class UserTableSeeder extends Seeder
 
     private function insertUser ($user, $roleId)
     {
+        $faker = Factory::create();
+
         User::create([
             'username' => $user[0],
             'email'    => $user[1],
             'password' => $user[2],
             'fullname' => $user[3],
+            'phone'    => $faker->e164PhoneNumber,
+            'address'  => $faker->address,
             'role_id'  => $roleId,
         ]);
     }

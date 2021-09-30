@@ -21,7 +21,7 @@
             :state="validateState('input-username')"
             aria-describedby="input-username-feedback"
             data-vv-as="username"
-            class="form-control form-control-lg"
+            class="form-control form-control-md"
           ></b-form-input>
           <b-form-invalid-feedback id="input-username-feedback">{{
             veeErrors.first("input-username")
@@ -42,7 +42,7 @@
             :state="validateState('input-password')"
             aria-describedby="input-password-feedback"
             data-vv-as="password"
-            class="form-control form-control-lg"
+            class="form-control form-control-md"
           ></b-form-input>
           <b-form-invalid-feedback id="input-password-feedback">{{
             veeErrors.first("input-password")
@@ -74,6 +74,7 @@ export default {
   },
   methods: {
     ...mapActions("auth", ["LogIn"]),
+    ...mapActions("user", ["getUserLogged"]),
     async submit() {
       await this.$validator.validateAll().then((result) => {
         if (!result) this.error = false;
@@ -87,6 +88,7 @@ export default {
 
         try {
           await this.LogIn(User);
+          await this.getUserLogged();
           this.$toast.success("Bạn đã đăng nhập thành công.");
           this.$router.push({ name: "home" });
         } catch (error) {

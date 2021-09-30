@@ -150,7 +150,7 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   props: {
     posts: Array,
-    totalRows: Number,
+    rows: Number,
   },
   data() {
     return {
@@ -200,10 +200,12 @@ export default {
         },
         { key: "actions", label: "", thClass: "col-1", tdClass: "text-center" },
       ],
+      totalRows: 0,
     };
   },
   created() {
     this.getPost("");
+    this.totalRows = this.rows;
   },
   computed: {
     ...mapGetters({
@@ -214,6 +216,7 @@ export default {
     ...mapActions("post", ["getPost"]),
     onFiltered(filteredItems) {
       setTimeout(500);
+      this.totalRows = this.rows;
       this.totalRows = filteredItems.length;
       this.currentPage = 1;
     },
@@ -222,6 +225,8 @@ export default {
       this.$refs["my-modal-post-detal"].show();
     },
     updatePost(post) {
+      this.onTop();
+
       let postUpdate = {
         id: post.id,
         title: post.title,
@@ -233,8 +238,6 @@ export default {
         isEdit: true,
       };
       this.$emit("requestUpdatePost", postUpdate);
-
-      // this.$emit("onTop");
     },
     deletePost(id) {
       this.$bvModal
@@ -259,6 +262,12 @@ export default {
       this.getPost(slug);
       this.$refs["modal-post-detal"].show();
     },
+    onTop() {
+      window.scrollTo({
+        top: 150,
+        behavior: "smooth",
+      });
+    }
   },
 };
 </script>
