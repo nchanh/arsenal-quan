@@ -9,9 +9,12 @@
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
             <b-nav-item
-              href="#"
               v-for="(item, index) in getMinCategories"
               :key="index"
+              :to="{
+                name: 'searchCategory',
+                params: { categorySlug: item.slug },
+              }"
               class="nav-cateogry"
               >{{ item["name_vi"] }}</b-nav-item
             >
@@ -21,9 +24,12 @@
                   Tất cả <b-icon icon="list"></b-icon>
                 </template>
                 <b-dropdown-item
-                  href="#"
                   v-for="(item, index) in categories"
                   :key="index"
+                  :to="{
+                    name: 'searchCategory',
+                    params: { categorySlug: item.slug },
+                  }"
                   >{{ item["name_vi"] }}</b-dropdown-item
                 >
               </b-nav-item-dropdown>
@@ -31,7 +37,15 @@
           </b-navbar-nav>
 
           <b-navbar-nav class="ml-auto">
-            <b-nav-item href="#">
+            <div class="hd-search">
+              <input
+                type="text"
+                v-model="keyword"
+                v-on:keyup.enter="onSearch"
+                placeholder="arsenal . . ."
+              />
+            </div>
+            <b-nav-item>
               <div v-if="isLoggedIn">
                 <b-dropdown
                   size="lg"
@@ -93,6 +107,7 @@ export default {
   data() {
     return {
       min_categories: {},
+      keyword: "",
     };
   },
   created: function () {
@@ -108,7 +123,7 @@ export default {
       return this.isAuthenticated;
     },
     getMinCategories() {
-      return this.categories.slice(0, 5);
+      return this.categories.slice(0, 4);
     },
   },
   methods: {
@@ -130,6 +145,21 @@ export default {
     },
     onLeave() {
       this.$refs.dropdownCategories.visible = false;
+    },
+    callCategoryPosts(slug) {
+      this.$router.push({ name: "postDetail", params: { Pslug: slug } });
+    },
+    onSearch() {
+      if (this.$route.params.keyword !== this.keyword) {
+        if (this.keyword == "") {
+          this.$toast.info("Vui lòng nhập thông tin cần tìm.");
+        } else {
+          this.$router.push({
+            name: "search",
+            params: { keyword: this.keyword },
+          });
+        }
+      }
     },
   },
 };
@@ -153,6 +183,47 @@ export default {
   color: white;
   font-size: 16px;
 }
+.hd-search {
+  padding-top: 10px;
+  margin-right: 5px;
+}
+.hd-search:after {
+  content: "";
+  background: white;
+  width: 2px;
+  height: 16px;
+  position: absolute;
+  top: 37px;
+  transform: rotate(135deg);
+}
+
+.hd-search > input {
+  color: white;
+  font-size: 15px;
+  background: transparent;
+  width: 25px;
+  height: 25px;
+  padding: 10px;
+  border: solid 2px white;
+  outline: none;
+  border-radius: 35px;
+  transition: width 0.5s;
+}
+
+.hd-search > input::placeholder {
+  color: #efefef;
+  opacity: 0;
+  transition: opacity 150ms ease-out;
+}
+
+.hd-search > input:focus::placeholder {
+  opacity: 1;
+}
+
+.hd-search > input:focus,
+.hd-search > input:not(:placeholder-shown) {
+  width: 175px;
+}
 @media all and (min-width: 992px) {
   .navbar .nav-item .dropdown-menu {
     display: none;
@@ -162,6 +233,11 @@ export default {
   }
   .navbar .nav-item .dropdown-menu {
     margin-top: 0;
+  }
+}
+@media all and (max-width: 991px) {
+  .hd-search:after {
+    display: none;
   }
 }
 </style>

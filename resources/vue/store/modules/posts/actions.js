@@ -59,6 +59,28 @@ export const actions = {
       console.log(error);
     }
   },
+  async getSearchCategory({ commit }, options) {
+    let response = await axios.get(`post/byCateogry/${options.categorySlug}?page=${options.page}`);
+    if (Object.keys(response.data).length === 0) {
+      router.push({ name: "urlNotFound" });
+    } else {
+      commit("setCategoryPosts", response.data);
+    }
+  },
+  resetPost({ commit }) {
+    commit("resetPost");
+  },
+  async resetPosts({ commit }) {
+    commit("resetPosts");
+  },
+  async getSearch({ commit }, options) {
+    let response = await axios.get(`post/search/${options.keyword}?page=${options.page}`);
+    if (Object.keys(response.data).length === 0) {
+      router.push({ name: "urlNotFound" });
+    } else {
+      commit("setSearchPosts", response.data);
+    }
+  },
   resetPost({ commit }) {
     commit("resetPost");
   },

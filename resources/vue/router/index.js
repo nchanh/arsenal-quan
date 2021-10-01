@@ -9,6 +9,8 @@ import RegisterComponent from "../components/public/Register";
 import PostDetailComponent from "../components/public/PostDetailComponent.vue";
 import PostManagerComponent from "../components/public/PostManagerComponent.vue";
 import ProfileComponent from '../components/public/ProfileComponent.vue'
+import SearchCategoryComponent from '../components/public/SearchCategoryComponent.vue'
+import SearchComponent from '../components/public/SearchComponent.vue'
 
 Vue.use(VueRouter);
 
@@ -37,7 +39,8 @@ const routes = [
   {
     path: "/post/:Pslug",
     name: "postDetail",
-    component: PostDetailComponent
+    component: PostDetailComponent,
+    meta: { guest: true }
   },
   {
     path: "/posts/manager",
@@ -50,6 +53,18 @@ const routes = [
     name: "profileUser",
     component: ProfileComponent,
     meta: { requiresAuth: true }
+  },
+  {
+    path: "/category/:categorySlug",
+    name: "searchCategory",
+    component: SearchCategoryComponent,
+    meta: { guest: true }
+  },
+  {
+    path: "/search/:keyword",
+    name: "search",
+    component: SearchComponent,
+    meta: { guest: true }
   },
 ];
 

@@ -39,4 +39,11 @@ class Post extends Model
   {
       return $query->where('slug', $slug);
   }
+
+  public function scopeGetByKeyword($query, $keyword)
+  {
+      return $query->where('title', 'LIKE', "%$keyword%")
+          ->orWhere('short_description', 'LIKE', "%$keyword%")
+          ->orWhere('content', 'LIKE', "%$keyword%");
+  }
 }

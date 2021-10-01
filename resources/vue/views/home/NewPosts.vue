@@ -3,7 +3,7 @@
     <b-row class="title-post mt-4">
       <h4>Bài viết mới nhất</h4>
     </b-row>
-    <b-row>
+    <b-row class="new-post">
       <b-col
         class="py-2 new-post-image"
         sm="12"
@@ -26,7 +26,7 @@
                 class="rounded-0 new-post-img"
               ></b-card-img-lazy>
             </b-col>
-            <b-col md="6" id="new-post-text">
+            <b-col md="6" class="new-post-text">
               <b-card-body>
                 <span
                   class="np-title-cateogry"
@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapMutations } from "vuex";
 
 export default {
   data() {
@@ -75,6 +75,9 @@ export default {
   created() {
     this.getPosts(this.currentPage);
     this.setNumberPagination;
+  },
+  mutations: {
+    ...mapMutations('post', ["resetCategoryPosts"])
   },
   computed: {
     ...mapGetters({
@@ -137,6 +140,10 @@ export default {
 }
 .new-post-img {
   height: 100%;
+  border-top: var(--red-color) solid 3px;
+}
+.new-post-text {
+  border-top: var(--red-color) solid 3px;
 }
 .np-title-cateogry {
   color: rgb(95, 95, 95);

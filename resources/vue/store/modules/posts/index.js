@@ -5,6 +5,8 @@ import { mutations } from './mutations'
 const state = {
   post: {},
   posts: null,
+  categoryPosts: null,
+  searchPosts: null,
   allPosts: null,
   error: false,
 };

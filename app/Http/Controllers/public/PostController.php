@@ -5,6 +5,7 @@ namespace App\Http\Controllers\public;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PostCreateRequest;
 use App\Http\Requests\PostUpdateRequest;
+use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 
@@ -56,5 +57,20 @@ class PostController extends Controller
         $post = Post::with(['category', 'user'])->getBySlug($slug)->first();
 
         return response()->json($post);
+    }
+
+    public function getCategoryPagination($slug)
+    {
+        $categoryId = Category::getSlug($slug)->first()->id;
+        $posts = Post::with(['category', 'user'])->where('category_id', $categoryId)->paginate(10);
+
+        return response()->json($posts);
+    }
+
+    public function searchPosts($keyword)
+    {
+        $posts = Post::with(['category', 'user'])->getByKeyword($keyword)->paginate(10);
+
+        return response()->json($posts);
     }
 }

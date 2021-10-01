@@ -1,42 +1,38 @@
 <template>
-  <layout-public>
-    <b-container>
-      <h2 class="profile-title">
-        <b-icon-person-circle></b-icon-person-circle>
-        Hồ sơ người dùng
-      </h2>
-      <b-card class="mb-5">
-        <b-row>
-          <update-profile
-            :user="user"
-            @updateImage="updateImage"
-            @onUpdateUser="onUpdateUser"
-          ></update-profile>
-          <change-password
-            :user="user"
-            @onChangePassword="onChangePassword"
-            ref="changePassword"
-          ></change-password>
-        </b-row>
-      </b-card>
-    </b-container>
+  <b-container>
+    <h2 class="profile-title">
+      <b-icon-person-circle></b-icon-person-circle>
+      Hồ sơ người dùng
+    </h2>
+    <b-card class="mb-5">
+      <b-row>
+        <update-profile
+          :user="user"
+          @updateImage="updateImage"
+          @onUpdateUser="onUpdateUser"
+        ></update-profile>
+        <change-password
+          :user="user"
+          @onChangePassword="onChangePassword"
+          ref="changePassword"
+        ></change-password>
+      </b-row>
+    </b-card>
     <loader-component v-if="loader"></loader-component>
-  </layout-public>
+  </b-container>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import LayoutPublic from "../layouts/LayoutPublic.vue";
 import UpdateProfile from "../../views/profile/UpdateProfileComponent.vue";
 import ChangePassword from "../../views/profile/ChangePasswordComponent.vue";
 import LoaderComponent from "../../views/helper/LoaderComponent.vue";
 
 export default {
   components: {
-    LayoutPublic,
     UpdateProfile,
     ChangePassword,
-    LoaderComponent
+    LoaderComponent,
   },
   data() {
     return {

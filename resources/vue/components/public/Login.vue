@@ -1,68 +1,64 @@
 <template>
-  <layout-public>
-    <div class="vue-tempalte">
-      <form @submit.prevent="submit">
-        <div class="d-flex justify-content-center">
-          <img src="/assets/images/Logo-AQ-red.png" alt="arsernal-quan" />
-        </div>
-        <h4>Đăng nhập vào Arsenal Quán</h4>
+  <div class="vue-tempalte">
+    <form @submit.prevent="submit">
+      <div class="d-flex justify-content-center">
+        <img src="/assets/images/Logo-AQ-red.png" alt="arsernal-quan" />
+      </div>
+      <h4>Đăng nhập vào Arsenal Quán</h4>
 
-        <b-form-group
+      <b-form-group
+        id="input-username"
+        label="Tài khoản hoặc địa chi email"
+        label-for="input-username"
+      >
+        <b-form-input
+          type="text"
           id="input-username"
-          label="Tài khoản hoặc địa chi email"
-          label-for="input-username"
-        >
-          <b-form-input
-            type="text"
-            id="input-username"
-            name="input-username"
-            v-model="user.username"
-            v-validate="'required|min:6|max:25'"
-            :state="validateState('input-username')"
-            aria-describedby="input-username-feedback"
-            data-vv-as="username"
-            class="form-control form-control-md"
-          ></b-form-input>
-          <b-form-invalid-feedback id="input-username-feedback">{{
-            veeErrors.first("input-username")
-          }}</b-form-invalid-feedback>
-        </b-form-group>
+          name="input-username"
+          v-model="user.username"
+          v-validate="'required|min:6|max:25'"
+          :state="validateState('input-username')"
+          aria-describedby="input-username-feedback"
+          data-vv-as="username"
+          class="form-control form-control-md"
+        ></b-form-input>
+        <b-form-invalid-feedback id="input-username-feedback">{{
+          veeErrors.first("input-username")
+        }}</b-form-invalid-feedback>
+      </b-form-group>
 
-        <b-form-group
+      <b-form-group
+        id="input-password"
+        label="Mật khẩu"
+        label-for="input-password"
+      >
+        <b-form-input
+          type="password"
           id="input-password"
-          label="Mật khẩu"
-          label-for="input-password"
-        >
-          <b-form-input
-            type="password"
-            id="input-password"
-            name="input-password"
-            v-model="user.password"
-            v-validate="'required|min:6|max:50'"
-            :state="validateState('input-password')"
-            aria-describedby="input-password-feedback"
-            data-vv-as="password"
-            class="form-control form-control-md"
-          ></b-form-input>
-          <b-form-invalid-feedback id="input-password-feedback">{{
-            veeErrors.first("input-password")
-          }}</b-form-invalid-feedback>
-        </b-form-group>
+          name="input-password"
+          v-model="user.password"
+          v-validate="'required|min:6|max:50'"
+          :state="validateState('input-password')"
+          aria-describedby="input-password-feedback"
+          data-vv-as="password"
+          class="form-control form-control-md"
+        ></b-form-input>
+        <b-form-invalid-feedback id="input-password-feedback">{{
+          veeErrors.first("input-password")
+        }}</b-form-invalid-feedback>
+      </b-form-group>
 
-        <button type="submit" class="btn btn-lg btn-block btn-submit">
-          Đăng nhập
-        </button>
-      </form>
-    </div>
-  </layout-public>
+      <button type="submit" class="btn btn-lg btn-block btn-submit">
+        Đăng nhập
+      </button>
+    </form>
+  </div>
 </template>
 
 <script>
 import { mapActions } from "vuex";
-import LayoutPublic from "../layouts/LayoutPublic.vue";
 
 export default {
-  components: { LayoutPublic },
   data() {
     return {
       user: {

@@ -1,8 +1,10 @@
 <template>
   <div>
-    <main>
-      <router-view></router-view>
-    </main>
+    <layout-public class="body">
+      <transition name="fade">
+        <router-view></router-view>
+      </transition>
+    </layout-public>
     <div
       id="pagetop"
       class="fixed right-0 bottom-0"
@@ -16,7 +18,9 @@
 </template>
 
 <script>
+import LayoutPublic from "./components/layouts/LayoutPublic.vue";
 export default {
+  components: { LayoutPublic },
   data() {
     return {
       scTimer: 0,
@@ -46,7 +50,7 @@ export default {
 </script>
 
 <style>
-main {
+.body {
   background-color: #f1f2f3;
 }
 #pagetop {

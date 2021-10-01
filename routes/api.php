@@ -37,3 +37,5 @@ Route::apiResource('categories', CategoryController::class)->only('index');
 
 Route::get('/post/pagination', [PostController::class, 'getPostPagination']);
 Route::get('/post/{slug}', [PostController::class, 'showBySlug']);
+Route::get('/post/byCateogry/{slug}', [PostController::class, 'getCategoryPagination']);
+Route::get('/post/search/{keyword}', [PostController::class, 'searchPosts']);

@@ -1,47 +1,43 @@
 <template>
-  <layout-public>
-    <b-container>
-      <h2 class="pm-title">
-        <b-icon-newspaper></b-icon-newspaper>
-        Quản lý bài viết
-      </h2>
-      <b-card class="mb-2">
-        <b-card-text>
-          <create-component
-            :categories="categories"
-            :post="post"
-            @onInsertOrUpdate="onInsertOrUpdate"
-            ref="postCreate"
-          ></create-component>
-        </b-card-text>
-      </b-card>
-      <b-card class="post-list mb-5">
-        <b-card-text>
-          <list-component
-            :posts="posts"
-            :rows="totalRows"
-            @onRemovePost="onRemovePost"
-            @requestUpdatePost="requestUpdatePost"
-          ></list-component>
-        </b-card-text>
-      </b-card>
-    </b-container>
+  <b-container>
+    <h2 class="pm-title">
+      <b-icon-newspaper></b-icon-newspaper>
+      Quản lý bài viết
+    </h2>
+    <b-card class="mb-2">
+      <b-card-text>
+        <create-component
+          :categories="categories"
+          :post="post"
+          @onInsertOrUpdate="onInsertOrUpdate"
+          ref="postCreate"
+        ></create-component>
+      </b-card-text>
+    </b-card>
+    <b-card class="post-list mb-5">
+      <b-card-text>
+        <list-component
+          :posts="posts"
+          :rows="totalRows"
+          @onRemovePost="onRemovePost"
+          @requestUpdatePost="requestUpdatePost"
+        ></list-component>
+      </b-card-text>
+    </b-card>
     <loader-component v-if="loader"></loader-component>
-  </layout-public>
+  </b-container>
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
-import LayoutPublic from "../layouts/LayoutPublic.vue";
 import CreateComponent from "../../views/products/CreateComponent.vue";
 import ListComponent from "../../views/products/ListComponent.vue";
 import LoaderComponent from "../../views/helper/LoaderComponent.vue";
 
 export default {
   components: {
-    LayoutPublic,
     CreateComponent,
     ListComponent,
-    LoaderComponent
+    LoaderComponent,
   },
   data() {
     return {
@@ -57,7 +53,7 @@ export default {
       },
       posts: [],
       totalRows: 0,
-      loader: false
+      loader: false,
     };
   },
   created() {
@@ -74,7 +70,12 @@ export default {
   },
   methods: {
     ...mapActions("category", ["getCategories"]),
-    ...mapActions("post", ["getAllPosts", "removePost", "insertPost", "updatePost"]),
+    ...mapActions("post", [
+      "getAllPosts",
+      "removePost",
+      "insertPost",
+      "updatePost",
+    ]),
     reloadGetPosts() {
       this.posts = this.getPosts;
       this.totalRows = this.posts.length;

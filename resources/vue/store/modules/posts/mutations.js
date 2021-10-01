@@ -8,6 +8,12 @@ export const mutations = {
   setAllPosts(state, postInput) {
     state.allPosts = postInput;
   },
+  setCategoryPosts(state, postInput) {
+    state.categoryPosts = postInput;
+  },
+  setSearchPosts(state, postInput) {
+    state.searchPosts = postInput;
+  },
   setError(state, errorInput) {
     state.error = errorInput;
   },
@@ -17,10 +23,4 @@ export const mutations = {
   resetPosts(state) {
     state.posts = {};
   },
-  removePost(state, postId) {
-    state.allPosts = state.allPosts.filter(post => post.id !== postId);
-  },
-  addPost(state, newPost) {
-    state.allPosts.unshift(newPost);
-  }
 };
