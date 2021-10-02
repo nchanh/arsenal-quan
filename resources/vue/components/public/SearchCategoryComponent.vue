@@ -112,4 +112,8 @@ export default {
   padding: 15px 0px 5px 17px;
   margin: 0;
 }
+.title-post h4 {
+  font-family: KanitMedium;
+  text-transform: uppercase;
+}
 </style>

@@ -1,11 +1,11 @@
 <template>
   <b-container class="mt-4">
     <b-row>
-      <h2 class="title">
+      <h4 class="title">
         <b-icon-search></b-icon-search>
         Tìm kiếm với từ khóa
         <span>{{ keyword }}</span>
-      </h2>
+      </h4>
       <b-col sm="12" md="12" lg="9" cols="12">
         <b-row align="center" v-if="loader">
           <b-col>
@@ -13,28 +13,10 @@
           </b-col>
         </b-row>
 
-        <b-card
-          class="image mb-3"
-          v-for="(item, index) in getOnlyPosts"
-          :key="index"
-          :img-src="item.thumbnail || '/assets/images/Logo-AQ-red.png'"
-          img-alt="item.slug"
-          img-left
-        >
-          <b-card-text class="body-text">
-            <span class="category">{{ item.category.name_vi }}</span>
-            <span class="card-body-title">
-              {{ item.title }}{{ item.title }}{{ item.title }}{{ item.title }}
-            </span>
-            <span class="card-body-sd"
-              >{{ item.short_description }}{{ item.short_description
-              }}{{ item.short_description }}{{ item.short_description }}</span
-            >
-          </b-card-text>
-        </b-card>
-        <b-row v-if="getOnlyPosts.length === 0">
-          Không có bài viết nào.
-        </b-row>
+        <search-component :posts="getOnlyPosts" @postDetail="postDetail"></search-component>
+
+        <b-row v-if="getOnlyPosts.length === 0"> Không có bài viết nào. </b-row>
+
         <b-row v-if="getOnlyPosts.length !== 0">
           <b-col>
             <b-pagination
@@ -58,9 +40,11 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import WidgetComponent from "../../views/home/WidgetComponent.vue";
+import SearchComponent from "../../views/search/SearchComponent.vue";
 
 export default {
   components: {
+    SearchComponent,
     WidgetComponent,
   },
   data() {
@@ -70,7 +54,7 @@ export default {
       currentPage: 1,
       keyword: "",
       statusPagination: false,
-      loader: false
+      loader: false,
     };
   },
   created() {
@@ -128,12 +112,16 @@ export default {
       this.getSearch(options);
       this.statusPagination = true;
     },
+    postDetail(slug) {
+      this.$router.push({ name: "postDetail", params: { Pslug: slug } });
+    },
   },
 };
 </script>
 
 <style scoped>
 .title {
+  font-family: KanitMedium;
   width: 100%;
   padding-bottom: 10px;
   border-bottom: 2px solid red;
@@ -142,32 +130,6 @@ export default {
 }
 .title span {
   color: #000;
-}
-.category {
-  color: rgb(95, 95, 95);
-  font-size: 13px;
-  text-transform: uppercase;
-}
-.card-body-title {
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.card-body-sd {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.card-img-left {
-  padding-top: 5px;
-  height: 150px;
-}
-.card-body-sd {
-  color: rgb(123, 123, 123);
 }
 </style>
 

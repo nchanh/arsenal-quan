@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use App\Enums\PageStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class Post extends Model
@@ -45,5 +45,14 @@ class Post extends Model
       return $query->where('title', 'LIKE', "%$keyword%")
           ->orWhere('short_description', 'LIKE', "%$keyword%")
           ->orWhere('content', 'LIKE', "%$keyword%");
+  }
+
+  public function scopeGetTop4($query)
+  {
+      return $query->orderBy('views', 'DESC')->take(4);
+  }
+
+  public function scopedCheckStatus($query) {
+    return $query->where('status', PageStatus::ACTIVE);
   }
 }

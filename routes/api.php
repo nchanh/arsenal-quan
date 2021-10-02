@@ -39,3 +39,5 @@ Route::get('/post/pagination', [PostController::class, 'getPostPagination']);
 Route::get('/post/{slug}', [PostController::class, 'showBySlug']);
 Route::get('/post/byCateogry/{slug}', [PostController::class, 'getCategoryPagination']);
 Route::get('/post/search/{keyword}', [PostController::class, 'searchPosts']);
+Route::get('/post/get/top-4-views', [PostController::class, 'getTop4Views']);
+Route::get('/post/get/one-random', [PostController::class, 'getRandomOnePost']);

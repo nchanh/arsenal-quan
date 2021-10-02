@@ -1,5 +1,5 @@
 <template>
-  <b-col class="py-2 post-image" sm="12" md="6" lg="6" cols="12">
+  <b-col class="py-2 post-image" sm="12" md="4" lg="4" cols="12">
     <b-card
       no-body
       class="overflow-hidden post-cart"
@@ -57,7 +57,7 @@ export default {
   max-width: 540px;
 }
 .post-img {
-  height: 100%;
+  height: 215px;
   border-top: var(--red-color) solid 3px;
 }
 .post-text {
@@ -69,6 +69,8 @@ export default {
   text-transform: uppercase;
 }
 .post-title {
+  font-size: 16px;
+  margin: 2px 0;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -76,6 +78,9 @@ export default {
   text-overflow: ellipsis;
 }
 .post-short-description {
+  color: rgba(123, 123, 123);
+  font-size: 15px;
+  font-family: KanitLight;
   display: -webkit-box;
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;

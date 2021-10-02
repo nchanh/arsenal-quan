@@ -1,6 +1,6 @@
 <template>
   <div class="post-list">
-    <b-row class="mt-3 mb-2">
+    <b-row class="mt-4 mb-2">
       <b-col cols="6">
         <h4 class="ml-4">Danh sách bài viết</h4>
       </b-col>
@@ -59,21 +59,23 @@
         <b-button
           id="show-post"
           size="sm"
-          class="btn btn-primary mb-1"
-          @click="showModal(row.item.slug)"
+          class="mb-1"
+          variant="info"
+          @click="showModal(row.item.id)"
         >
           <b-icon-search></b-icon-search> Xem
         </b-button>
         <b-button
           size="sm"
-          class="btn btn-warning mb-1"
+          class="mb-1"
+          variant="warning"
           @click="updatePost(row.item)"
         >
           <b-icon-pencil-square></b-icon-pencil-square> Sửa
         </b-button>
         <b-button
           size="sm"
-          class="btn btn-danger"
+          variant="danger"
           @click="deletePost(row.item.id)"
         >
           <b-icon-trash-fill></b-icon-trash-fill> Xóa
@@ -204,7 +206,7 @@ export default {
     };
   },
   created() {
-    this.getPost("");
+    this.findPost("");
     this.totalRows = this.rows;
   },
   computed: {
@@ -213,16 +215,12 @@ export default {
     }),
   },
   methods: {
-    ...mapActions("post", ["getPost"]),
+    ...mapActions("post", ["findPost"]),
     onFiltered(filteredItems) {
       setTimeout(500);
       this.totalRows = this.rows;
       this.totalRows = filteredItems.length;
       this.currentPage = 1;
-    },
-    seenPost(slug) {
-      this.getPost(slug);
-      this.$refs["my-modal-post-detal"].show();
     },
     updatePost(post) {
       this.onTop();
@@ -258,8 +256,8 @@ export default {
           }
         });
     },
-    showModal(slug) {
-      this.getPost(slug);
+    showModal(id) {
+      this.findPost(id);
       this.$refs["modal-post-detal"].show();
     },
     onTop() {

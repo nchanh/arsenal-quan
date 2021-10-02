@@ -15,8 +15,8 @@ class PostUpdateRequest extends FormRequest
     {
         return [
           'title' => 'required|max:190|unique:posts,title,' . $this->post->id,
-          'short_description'    => 'required|max:190',
-          // 'thumbnail' => 'required',
+          'short_description' => 'required|max:190',
+          'thumbnail' => 'required',
           'content' => 'required',
           'status' => 'required',
           'category_id' => 'required',

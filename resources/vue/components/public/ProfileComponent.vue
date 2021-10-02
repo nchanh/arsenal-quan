@@ -1,9 +1,9 @@
 <template>
   <b-container>
-    <h2 class="profile-title">
+    <h3 class="profile-title">
       <b-icon-person-circle></b-icon-person-circle>
       Hồ sơ người dùng
-    </h2>
+    </h3>
     <b-card class="mb-5">
       <b-row>
         <update-profile
@@ -107,7 +107,11 @@ export default {
 
 <style scoped>
 .profile-title {
-  margin: 20px 0;
+  width: 100%;
+  padding-bottom: 10px;
+  border-bottom: 2px solid red;
+  margin: 15px 0;
+  font-family: KanitMedium;
   text-transform: uppercase;
 }
 </style>

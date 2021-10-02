@@ -14,6 +14,12 @@ export const mutations = {
   setSearchPosts(state, postInput) {
     state.searchPosts = postInput;
   },
+  setTop4Views(state, postInput) {
+    state.top4Views = postInput;
+  },
+  setOneRandom(state, postInput) {
+    state.getOneRandom = postInput;
+  },
   setError(state, errorInput) {
     state.error = errorInput;
   },

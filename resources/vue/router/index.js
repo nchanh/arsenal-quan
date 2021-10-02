@@ -40,7 +40,7 @@ const routes = [
     path: "/post/:Pslug",
     name: "postDetail",
     component: PostDetailComponent,
-    meta: { guest: true }
+    meta: { guest: false }
   },
   {
     path: "/posts/manager",
@@ -58,13 +58,13 @@ const routes = [
     path: "/category/:categorySlug",
     name: "searchCategory",
     component: SearchCategoryComponent,
-    meta: { guest: true }
+    meta: { guest: false }
   },
   {
     path: "/search/:keyword",
     name: "search",
     component: SearchComponent,
-    meta: { guest: true }
+    meta: { guest: false }
   },
 ];
 

@@ -10,6 +10,14 @@ export const actions = {
       commit("setPost", response.data);
     }
   },
+  async findPost({ commit }, postId) {
+    let response = await axios.get(`posts/${postId}`);
+    if (Object.keys(response.data).length === 0) {
+      router.push({ name: "urlNotFound" });
+    } else {
+      commit("setPost", response.data);
+    }
+  },
   async getPosts({ commit }, page) {
     let urlRequest = "post/pagination?page=" + page;
     let response = await axios.get(urlRequest);
@@ -73,6 +81,12 @@ export const actions = {
   async resetPosts({ commit }) {
     commit("resetPosts");
   },
+  resetPost({ commit }) {
+    commit("resetPost");
+  },
+  async resetPosts({ commit }) {
+    commit("resetPosts");
+  },
   async getSearch({ commit }, options) {
     let response = await axios.get(`post/search/${options.keyword}?page=${options.page}`);
     if (Object.keys(response.data).length === 0) {
@@ -81,10 +95,12 @@ export const actions = {
       commit("setSearchPosts", response.data);
     }
   },
-  resetPost({ commit }) {
-    commit("resetPost");
+  async getTop4Views({ commit }) {
+    let response = await axios.get(`post/get/top-4-views`);
+    commit("setTop4Views", response.data);
   },
-  async resetPosts({ commit }) {
-    commit("resetPosts");
-  }
+  async getOneRandom({ commit }) {
+    let response = await axios.get(`post/get/one-random`);
+    commit("setOneRandom", response.data);
+  },
 };

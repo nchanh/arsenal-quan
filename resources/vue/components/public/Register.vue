@@ -154,7 +154,10 @@ export default {
 <style scoped>
 h4 {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
+  width: 100%;
+  padding-bottom: 10px;
+  border-bottom: 2px solid red;
 }
 .vue-tempalte {
   height: 100%;

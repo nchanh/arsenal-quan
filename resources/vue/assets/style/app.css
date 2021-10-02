@@ -6,10 +6,22 @@
 }
 
 @font-face {
-  font-family: Kanit;
+  font-family: KanitThin;
+  src: url(/assets/fonts/Kanit-Thin.ttf);
+}
+@font-face {
+  font-family: KanitLight;
+  src: url(/assets/fonts/Kanit-Light.ttf);
+}
+@font-face {
+  font-family: KanitRegular;
   src: url(/assets/fonts/Kanit-Regular.ttf);
+}
+@font-face {
+  font-family: KanitMedium;
+  src: url(/assets/fonts/Kanit-Medium.ttf);
 }
 
 *{
-  font-family: Kanit;
+  font-family: KanitRegular;
 }

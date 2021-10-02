@@ -8,6 +8,8 @@ const state = {
   categoryPosts: null,
   searchPosts: null,
   allPosts: null,
+  top4Views: null,
+  getOneRandom: null,
   error: false,
 };
 

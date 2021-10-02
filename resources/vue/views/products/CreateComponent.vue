@@ -54,7 +54,7 @@
         </b-form-select>
       </b-form-group>
 
-      <b-form-group label="Hình ảnh" label-for="file-image">
+      <b-form-group label="Ảnh mô tả" label-for="file-image">
         <b-row v-if="post.thumbnail" class="mb-1">
           <b-col>
             <img class="preview" :src="post.thumbnail" />
@@ -65,15 +65,26 @@
             <b-form-file
               id="file-image"
               accept="image/*"
-              placeholder="Vui lòng chọn hình ảnh tại đây..."
+              :placeholder="inputFilePlaceholder"
               size="sm"
+              v-model="inputFile"
               @change="previewImage"
             ></b-form-file>
           </div>
           <div class="col-1 px-0" v-if="imageData != null">
-            <b-button @click="onUpload" size="sm" title="Tải ảnh lên" :class="uploadValue === 0 ? 'btn-primary' : 'btn-success'">
-              <b-icon-cloud-upload v-if="uploadValue === 0"></b-icon-cloud-upload>
-              <b-icon-check2-circle v-else-if="uploadValue === 100"></b-icon-check2-circle>
+            <b-button
+              @click="onUpload"
+              size="sm"
+              title="Tải ảnh lên"
+              :class="uploadValue === 0 ? 'btn-primary' : 'btn-success'"
+              :disabled="uploadValue === 100"
+            >
+              <b-icon-cloud-upload
+                v-if="uploadValue === 0"
+              ></b-icon-cloud-upload>
+              <b-icon-check2-circle
+                v-else-if="uploadValue === 100"
+              ></b-icon-check2-circle>
               <b-spinner small label="Small Spinner" v-else></b-spinner>
               Tải ảnh
             </b-button>
@@ -146,6 +157,8 @@ export default {
       imageData: null,
       uploadValue: 0,
       uploaded: false,
+      inputFile: null,
+      inputFilePlaceholder: "Vui lòng chọn hình ảnh tại đây...",
     };
   },
   methods: {
@@ -153,18 +166,28 @@ export default {
       this.$validator.validateAll().then((result) => {
         if (result) {
           this.error = true;
-        } else if (this.post.category_id === null) {
-          this.error = false;
-          this.$toast.error("Vui lòng chọn danh mục của bài viết.");
-        } else if (this.post.thumbnail === "") {
-          this.error = false;
-          this.$toast.error("Vui lòng chọn ảnh cho bài viết.");
-        } else if (this.post.content === "") {
-          this.error = false;
-          this.$toast.error("Vui lòng nhập nội dung của bài viết.");
         } else {
           this.error = false;
           this.$toast.error("Vui lòng nhập đầy đủ thông tin bài viết.");
+          return;
+        }
+
+        if (this.post.category_id === null) {
+          this.$toast.error("Vui lòng chọn danh mục của bài viết.");
+          this.error = false;
+          return;
+        }
+
+        if (this.imageData === null && (this.post.isEdit !== true || this.post.thumbnail === null)) {
+          this.$toast.error("Vui lòng chọn ảnh mô tả cho bài viết.");
+          this.error = false;
+          return;
+        }
+
+        if (this.post.content === "") {
+          this.$toast.error("Vui lòng nhập nội dung của bài viết.");
+          this.error = false;
+          return;
         }
 
         if (this.error) {
@@ -195,6 +218,7 @@ export default {
       this.imageData = null;
       this.uploadValue = 0;
       this.uploaded = false;
+      this.inputFile = null;
     },
     onCancelUpdate() {
       this.post.id = null;
@@ -208,6 +232,7 @@ export default {
       this.imageData = null;
       this.uploadValue = 0;
       this.uploaded = false;
+      this.inputFile = null;
     },
     previewImage(event) {
       this.uploaded = false;
@@ -235,11 +260,12 @@ export default {
           console.log(error.message);
         },
         () => {
-          this.uploadValue = 100;
           storageRef.snapshot.ref.getDownloadURL().then((url) => {
             this.post.thumbnail = url;
           });
+          this.$toast.success("Tải ảnh lên thành công.");
           this.uploaded = true;
+          this.uploadValue = 100;
         }
       );
     },

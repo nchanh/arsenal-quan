@@ -1,9 +1,9 @@
 <template>
   <b-container>
-    <h2 class="pm-title">
+    <h3 class="pm-title">
       <b-icon-newspaper></b-icon-newspaper>
       Quản lý bài viết
-    </h2>
+    </h3>
     <b-card class="mb-2">
       <b-card-text>
         <create-component
@@ -121,6 +121,13 @@ export default {
     },
     requestUpdatePost(postInput) {
       this.post = postInput;
+      if (postInput.thumbnail) {
+        this.$refs.postCreate.inputFilePlaceholder =
+          "Thay đổi ảnh mô tả tại đây...";
+      } else {
+        this.$refs.postCreate.inputFilePlaceholder =
+          "Vui lòng chọn ảnh mô tả tại đây...";
+      }
     },
   },
 };
@@ -130,7 +137,11 @@ export default {
   padding: 0 !important;
 }
 .pm-title {
-  margin: 15px 0;
+  width: 100%;
+  padding-bottom: 10px;
+  border-bottom: 2px solid red;
+  margin: 18px 0;
+  font-family: KanitMedium;
   text-transform: uppercase;
 }
 </style>

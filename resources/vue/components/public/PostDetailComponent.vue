@@ -5,6 +5,7 @@
         img-top
         :src="post.thumbnail || '/assets/images/banner/banner-0.jpg'"
         :alt="post.slug"
+        class="pd-card-image"
       ></b-card-img-lazy>
       <div class="px-4 my-3">
         <b-card-title>
@@ -72,5 +73,8 @@ export default {
 }
 .card-body {
   padding: 0 !important;
+}
+.pd-card-image {
+  max-height: 500px;
 }
 </style>

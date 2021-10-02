@@ -24,7 +24,7 @@ class PostTableSeeder extends Seeder
             Post::create([
                 'title' => $title,
                 'short_description' => $faker->sentence($nbWords = 15, $variableNbWords = true),
-                'content' =>  $faker->randomHtml(6, 8),
+                'content' =>  $faker->randomHtml(5, 8),
                 'slug' =>  $slug,
                 'category_id' => Category::inRandomOrder()->first()->id,
                 'user_id' => User::inRandomOrder()->first()->id,

@@ -55,6 +55,7 @@ class PostController extends Controller
     public function showBySlug($slug)
     {
         $post = Post::with(['category', 'user'])->getBySlug($slug)->first();
+        if($post) $post->increment('views');
 
         return response()->json($post);
     }
@@ -62,7 +63,7 @@ class PostController extends Controller
     public function getCategoryPagination($slug)
     {
         $categoryId = Category::getSlug($slug)->first()->id;
-        $posts = Post::with(['category', 'user'])->where('category_id', $categoryId)->paginate(10);
+        $posts = Post::with(['category', 'user'])->where('category_id', $categoryId)->paginate(15);
 
         return response()->json($posts);
     }
@@ -72,5 +73,17 @@ class PostController extends Controller
         $posts = Post::with(['category', 'user'])->getByKeyword($keyword)->paginate(10);
 
         return response()->json($posts);
+    }
+
+    public function getTop4Views()
+    {
+
+        $posts = Post::getTop4()->with(['category', 'user'])->get();
+
+        return response()->json($posts);
+    }
+
+    public function getRandomOnePost() {
+      return Post::with('category')->inRandomOrder()->take(1)->get();
     }
 }

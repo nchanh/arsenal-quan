@@ -19,6 +19,6 @@ export default {};
 <style>
 .page-wrap {
   background: #dedede;
-  min-height: 100vh;
+  min-height: 90vh;
 }
 </style>
