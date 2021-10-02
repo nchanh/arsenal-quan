@@ -60,9 +60,6 @@ export default {
 </script>
 
 <style scoped>
-.np-card-body {
-  padding-left: 0;
-}
 .new-post-cart:hover {
   cursor: pointer;
   color: red;

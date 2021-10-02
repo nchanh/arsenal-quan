@@ -158,6 +158,7 @@ export default {
             name: "search",
             params: { keyword: this.keyword },
           });
+          this.keyword = "";
         }
       }
     },

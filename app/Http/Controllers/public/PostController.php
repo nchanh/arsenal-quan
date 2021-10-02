@@ -63,7 +63,7 @@ class PostController extends Controller
     public function getCategoryPagination($slug)
     {
         $categoryId = Category::getSlug($slug)->first()->id;
-        $posts = Post::with(['category', 'user'])->where('category_id', $categoryId)->paginate(15);
+        $posts = Post::with(['category', 'user'])->getByCategoryId($categoryId)->paginate(15);
 
         return response()->json($posts);
     }

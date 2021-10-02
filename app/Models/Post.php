@@ -55,4 +55,9 @@ class Post extends Model
   public function scopedCheckStatus($query) {
     return $query->where('status', PageStatus::ACTIVE);
   }
+
+  public function scopeGetByCategoryId($query, $categoryId)
+  {
+      return $query->where('category_id', $categoryId)->orderBy('created_at', 'DESC');
+  }
 }
