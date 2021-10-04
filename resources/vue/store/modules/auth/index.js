@@ -5,6 +5,7 @@ import { mutations } from './mutations'
 const state = {
   token: null,
   fullname: null,
+  role: null,
 };
 
 const namespaced = true;

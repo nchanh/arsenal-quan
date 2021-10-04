@@ -248,7 +248,7 @@ export default {
           cancelTitle: "Đóng",
           footerClass: "p-2",
           hideHeaderClose: false,
-          centered: true,
+
         })
         .then((value) => {
           if (value) {

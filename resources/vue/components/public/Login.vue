@@ -32,20 +32,32 @@
         label="Mật khẩu"
         label-for="input-password"
       >
-        <b-form-input
-          type="password"
-          id="input-password"
-          name="input-password"
-          v-model="user.password"
-          v-validate="'required|min:6|max:50'"
-          :state="validateState('input-password')"
-          aria-describedby="input-password-feedback"
-          data-vv-as="password"
-          class="form-control form-control-md"
-        ></b-form-input>
-        <b-form-invalid-feedback id="input-password-feedback">{{
-          veeErrors.first("input-password")
-        }}</b-form-invalid-feedback>
+        <b-input-group>
+          <b-form-input
+            :type="typePassword  ? 'password' : 'text'"
+            id="input-password"
+            name="input-password"
+            v-model="user.password"
+            v-validate="'required|min:6|max:50'"
+            :state="validateState('input-password')"
+            aria-describedby="input-password-feedback"
+            data-vv-as="password"
+            class="form-control form-control-md"
+          ></b-form-input>
+          <b-input-group-append>
+            <b-button
+              @click="showPassword"
+              variant="outline-secondary"
+              size="sm"
+            >
+              <b-icon-eye v-if="typePassword"></b-icon-eye>
+              <b-icon-eye-slash-fill v-else></b-icon-eye-slash-fill>
+            </b-button>
+          </b-input-group-append>
+          <b-form-invalid-feedback id="input-password-feedback">{{
+            veeErrors.first("input-password")
+          }}</b-form-invalid-feedback>
+        </b-input-group>
       </b-form-group>
 
       <button type="submit" class="btn btn-lg btn-block btn-submit">
@@ -66,6 +78,7 @@ export default {
         password: "",
       },
       error: true,
+      typePassword: true,
     };
   },
   methods: {
@@ -100,6 +113,9 @@ export default {
         return !this.veeErrors.has(ref);
       }
       return null;
+    },
+    showPassword() {
+      this.typePassword = !this.typePassword;
     },
   },
 };

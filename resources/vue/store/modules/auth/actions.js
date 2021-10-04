@@ -12,6 +12,7 @@ export const actions = {
     await axios.post("login", User).then(response => {
       commit("setToken", response.data.data.token);
       commit("setFullname", response.data.data.fullname);
+      commit("setRole", response.data.data.role);
     });
   },
   async LogOut({ commit, state }) {

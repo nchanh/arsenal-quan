@@ -61,14 +61,14 @@
                       alt="Logo-AQ-red.png"
                     ></b-img>
                     <span class="text-profile">
-                      {{ getFullname }}
+                      {{ getFullname || 'Tài khoản' }}
                       <b-icon-chevron-down></b-icon-chevron-down>
                     </span>
                   </template>
                   <b-dropdown-item :to="{ name: 'profileUser' }">
                     Hồ sơ cá nhân
                   </b-dropdown-item>
-                  <b-dropdown-item :to="{ name: 'postManager' }">
+                  <b-dropdown-item :to="{ name: 'postManager' }" v-if="checkRole">
                     Quản lý bài viết
                   </b-dropdown-item>
                   <b-dropdown-divider></b-dropdown-divider>
@@ -117,6 +117,7 @@ export default {
     ...mapGetters({
       isAuthenticated: "auth/isAuthenticated",
       getFullname: "auth/getFullname",
+      role: "auth/getRole",
       categories: "category/getCategories",
     }),
     isLoggedIn: function () {
@@ -125,6 +126,13 @@ export default {
     getMinCategories() {
       return this.categories.slice(0, 4);
     },
+    checkRole() {
+      if (this.role == 'nguoi-dung') {
+        return false
+      } else {
+        return true;
+      }
+    }
   },
   methods: {
     ...mapActions("auth", ["LogOut"]),

@@ -23,6 +23,9 @@ export const mutations = {
   setError(state, errorInput) {
     state.error = errorInput;
   },
+  setStringError(state, errorInput) {
+    state.stringError = errorInput;
+  },
   resetPost(state) {
     state.post = {};
   },

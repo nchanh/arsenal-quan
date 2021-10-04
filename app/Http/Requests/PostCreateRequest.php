@@ -15,7 +15,7 @@ class PostCreateRequest extends FormRequest
     {
         return [
           'title' => 'required|max:190|unique:posts',
-          'short_description' => 'required|max:190',
+          'short_description' => 'required',
           'thumbnail' => 'required',
           'content' => 'required',
           'status' => 'required',

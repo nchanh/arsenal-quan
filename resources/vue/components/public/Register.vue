@@ -52,22 +52,34 @@
         label="Mật khẩu"
         label-for="input-password"
       >
-        <b-form-input
-          type="password"
-          id="input-password"
-          name="input-password"
-          v-model="user.password"
-          v-validate="'required|min:6|max:50'"
-          :state="validateState('input-password')"
-          aria-describedby="input-password-feedback"
-          data-vv-as="password"
-          class="form-control form-control-md"
-          placeholder="Mật khẩu"
-          ref="user.password"
-        ></b-form-input>
-        <b-form-invalid-feedback id="input-password-feedback">{{
-          veeErrors.first("input-password")
-        }}</b-form-invalid-feedback>
+        <b-input-group>
+          <b-form-input
+            :type="typePassword ? 'password' : 'text'"
+            id="input-password"
+            name="input-password"
+            v-model="user.password"
+            v-validate="'required|min:6|max:50'"
+            :state="validateState('input-password')"
+            aria-describedby="input-password-feedback"
+            data-vv-as="password"
+            class="form-control form-control-md"
+            placeholder="Mật khẩu"
+            ref="user.password"
+          ></b-form-input>
+          <b-input-group-append>
+            <b-button
+              @click="showPassword"
+              variant="outline-secondary"
+              size="sm"
+            >
+              <b-icon-eye v-if="typePassword"></b-icon-eye>
+              <b-icon-eye-slash-fill v-else></b-icon-eye-slash-fill>
+            </b-button>
+          </b-input-group-append>
+          <b-form-invalid-feedback id="input-password-feedback">{{
+            veeErrors.first("input-password")
+          }}</b-form-invalid-feedback>
+        </b-input-group>
       </b-form-group>
 
       <b-form-group
@@ -75,21 +87,33 @@
         label="Nhập lại mật khẩu"
         label-for="input-password_confirmation"
       >
-        <b-form-input
-          type="password"
-          id="input-password_confirmation"
-          name="input-password_confirmation"
-          v-model="user.password_confirmation"
-          v-validate="'required|min:6|max:50|confirmed:user.password'"
-          :state="validateState('input-password_confirmation')"
-          aria-describedby="input-password_confirmation-feedback"
-          data-vv-as="confirm password"
-          class="form-control form-control-md"
-          placeholder="Nhập lại mật khẩu"
-        ></b-form-input>
-        <b-form-invalid-feedback id="input-password_confirmation-feedback">{{
-          veeErrors.first("input-password_confirmation")
-        }}</b-form-invalid-feedback>
+        <b-input-group>
+          <b-form-input
+            :type="typeConfirmPassword ? 'password' : 'text'"
+            id="input-password_confirmation"
+            name="input-password_confirmation"
+            v-model="user.password_confirmation"
+            v-validate="'required|min:6|max:50|confirmed:user.password'"
+            :state="validateState('input-password_confirmation')"
+            aria-describedby="input-password_confirmation-feedback"
+            data-vv-as="confirm password"
+            class="form-control form-control-md"
+            placeholder="Nhập lại mật khẩu"
+          ></b-form-input>
+          <b-input-group-append>
+            <b-button
+              @click="showConfirmPassword"
+              variant="outline-secondary"
+              size="sm"
+            >
+              <b-icon-eye v-if="typeConfirmPassword"></b-icon-eye>
+              <b-icon-eye-slash-fill v-else></b-icon-eye-slash-fill>
+            </b-button>
+          </b-input-group-append>
+          <b-form-invalid-feedback id="input-password_confirmation-feedback">{{
+            veeErrors.first("input-password_confirmation")
+          }}</b-form-invalid-feedback>
+        </b-input-group>
       </b-form-group>
 
       <button type="submit" class="btn btn-lg btn-block btn-submit">
@@ -112,6 +136,8 @@ export default {
         password_confirmation: "",
       },
       error: true,
+      typePassword: true,
+      typeConfirmPassword: true,
     };
   },
   methods: {
@@ -146,6 +172,12 @@ export default {
     getUsername(email) {
       const myArr = email.split("@");
       return myArr[0];
+    },
+    showPassword() {
+      this.typePassword = !this.typePassword;
+    },
+    showConfirmPassword() {
+      this.typeConfirmPassword = !this.typeConfirmPassword;
     },
   },
 };

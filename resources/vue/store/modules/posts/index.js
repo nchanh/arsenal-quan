@@ -11,6 +11,7 @@ const state = {
   top4Views: null,
   getOneRandom: null,
   error: false,
+  stringError: "",
 };
 
 const namespaced = true;

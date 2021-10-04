@@ -4,6 +4,7 @@ namespace App\Http\Controllers\public\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
+use App\Models\Role;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
@@ -21,9 +22,11 @@ class LoginController extends Controller
         if (Auth::attempt($inputUser, $rememberMe)) {
             $status = 201;
             $user = Auth::user();
+            $roleId =  $user->role_id;
             $userOutput = [];
             $userOutput['fullname'] = $user->fullname;
             $userOutput['token'] = $user->createToken('App')->accessToken;
+            $userOutput['role'] = Role::find($roleId)->slug;
 
             return response()->json(['data' => $userOutput], $status);
         }

@@ -28,13 +28,18 @@ export const actions = {
     let response = await axios.get(urlRequest);
     commit("setAllPosts", response.data);
   },
-  async removePost({ rootState, dispatch }, postId) {
+  async removePost({ rootState, dispatch, commit }, postId) {
     try {
       let headers = {
         headers: { Authorization: `Bearer ${rootState.auth.token}` }
       };
-      await axios.delete(`posts/${postId}`, headers);
-      await dispatch("getAllPosts");
+      await axios.delete(`posts/${postId}`, headers).then(result => {
+        if (result.data.error) {
+          commit("setStringError", result.data.error);
+        } else {
+          dispatch("getAllPosts");
+        }
+      });
     } catch (error) {
       console.log(error);
     }
@@ -68,7 +73,9 @@ export const actions = {
     }
   },
   async getSearchCategory({ commit }, options) {
-    let response = await axios.get(`post/byCateogry/${options.categorySlug}?page=${options.page}`);
+    let response = await axios.get(
+      `post/byCateogry/${options.categorySlug}?page=${options.page}`
+    );
     if (Object.keys(response.data).length === 0) {
       router.push({ name: "urlNotFound" });
     } else {
@@ -88,7 +95,9 @@ export const actions = {
     commit("resetPosts");
   },
   async getSearch({ commit }, options) {
-    let response = await axios.get(`post/search/${options.keyword}?page=${options.page}`);
+    let response = await axios.get(
+      `post/search/${options.keyword}?page=${options.page}`
+    );
     if (Object.keys(response.data).length === 0) {
       router.push({ name: "urlNotFound" });
     } else {
@@ -103,4 +112,7 @@ export const actions = {
     let response = await axios.get(`post/get/one-random`);
     commit("setOneRandom", response.data);
   },
+  async resetStringError({ commit }) {
+    commit("setStringError", "");
+  }
 };

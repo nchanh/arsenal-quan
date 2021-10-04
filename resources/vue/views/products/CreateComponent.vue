@@ -20,10 +20,10 @@
       </b-form-group>
 
       <b-form-group label="Mô tả ngắn" label-for="short_description">
-        <b-form-input
+        <b-form-textarea
           id="short_description"
           name="short_description"
-          v-validate="'required|max:190'"
+          v-validate="'required'"
           :state="validateState('short_description')"
           aria-describedby="short_description-feedback"
           data-vv-as="mô tả ngắn"
@@ -31,7 +31,8 @@
           type="text"
           placeholder="Mô tả ngắn"
           size="sm"
-        ></b-form-input>
+          rows="3"
+        ></b-form-textarea>
         <b-form-invalid-feedback id="short_description-feedback">
           {{ veeErrors.first("short_description") }}
         </b-form-invalid-feedback>
@@ -159,6 +160,7 @@ export default {
       uploaded: false,
       inputFile: null,
       inputFilePlaceholder: "Vui lòng chọn hình ảnh tại đây...",
+      statusButtonUpload: false,
     };
   },
   methods: {
@@ -187,6 +189,11 @@ export default {
         if (this.post.content === "") {
           this.$toast.error("Vui lòng nhập nội dung của bài viết.");
           this.error = false;
+          return;
+        }
+
+        if (this.statusButtonUpload) {
+          this.$toast.error("Bạn chưa nhấn tải ảnh lên.");
           return;
         }
 
@@ -235,6 +242,7 @@ export default {
       this.inputFile = null;
     },
     previewImage(event) {
+      this.statusButtonUpload = true;
       this.uploaded = false;
       this.uploadValue = 0;
       this.post.thumbnail = null;
@@ -266,6 +274,7 @@ export default {
           this.$toast.success("Tải ảnh lên thành công.");
           this.uploaded = true;
           this.uploadValue = 100;
+          this.statusButtonUpload = false;
         }
       );
     },

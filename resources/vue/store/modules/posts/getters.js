@@ -7,4 +7,5 @@ export const getters = {
   getTop4Views: state => state.top4Views,
   getOneRandom: state => state.getOneRandom,
   getError: state => state.error,
+  getStringError: state => state.stringError,
 }

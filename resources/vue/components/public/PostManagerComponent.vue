@@ -66,6 +66,7 @@ export default {
       categories: "category/getCategories",
       getPosts: "post/getAllPosts",
       getError: "post/getError",
+      getStringError: "post/getStringError",
     }),
   },
   methods: {
@@ -75,18 +76,24 @@ export default {
       "removePost",
       "insertPost",
       "updatePost",
+      "resetStringError",
     ]),
     reloadGetPosts() {
       this.posts = this.getPosts;
       this.totalRows = this.posts.length;
     },
-    onRemovePost(postId) {
+    async onRemovePost(postId) {
       this.loader = true;
-      this.removePost(postId)
+      await this.removePost(postId)
         .then(() => {
-          this.reloadGetPosts();
+          if (this.getStringError) {
+            this.$toast.error(this.getStringError);
+            this.resetStringError();
+          } else {
+            this.reloadGetPosts();
+            this.$toast.info("Bạn đã xóa bài viết thành công.");
+          }
           this.loader = false;
-          this.$toast.info("Bạn đã xóa bài viết thành công.");
         })
         .catch(() => {
           this.loader = false;
@@ -97,7 +104,10 @@ export default {
       this.loader = true;
       if (this.post.isEdit) {
         await this.updatePost(this.post).then(() => {
-          if (this.getError) {
+          if (this.getStringError) {
+            this.$toast.error(this.getStringError);
+            this.resetStringError();
+          } else if (this.getError) {
             this.$toast.error("Tiêu đề bài viết này đã tồn tại.");
           } else {
             this.reloadGetPosts();
@@ -108,7 +118,10 @@ export default {
         });
       } else {
         await this.insertPost(this.post).then(() => {
-          if (this.getError) {
+          if (this.getStringError) {
+            this.$toast.error(this.getStringError);
+            this.resetStringError();
+          } else if (this.getError) {
             this.$toast.error("Tiêu đề bài viết này đã tồn tại.");
           } else {
             this.reloadGetPosts();

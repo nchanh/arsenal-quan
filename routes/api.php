@@ -27,7 +27,7 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::put('update-image/{user}', [UserController::class, 'updateOnlyImage']);
     Route::put('change-password/{user}', [UserController::class, 'changePassword']);
 
-    Route::apiResource('posts', PostController::class)->except('index', 'show');
+    Route::apiResource('posts', PostController::class)->except('index', 'show')->middleware('role:1,2,3');
     Route::apiResource('categories', CategoryController::class)->except('index');
     Route::apiResource('users', UserController::class);
 });
